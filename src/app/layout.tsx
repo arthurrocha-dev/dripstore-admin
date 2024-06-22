@@ -53,6 +53,16 @@ export default function RootLayout({
                           canDelete: true,
                         },
                       },
+                      {
+                        name: "orders",
+                        list: "/orders",
+                        // create: "/orders/create",
+                        // edit: "/orders/edit/:id",
+                        // show: "/orders/show/:id",
+                        meta: {
+                          canDelete: true,
+                        },
+                      },
                       // {
                       //   name: "blog_posts",
                       //   list: "/blog-posts",

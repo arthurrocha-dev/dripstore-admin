@@ -1,30 +1,26 @@
 "use client";
 
+import { API_URL } from "@providers/data-provider";
 import type { AuthProvider } from "@refinedev/core";
 import Cookies from "js-cookie";
 
-const mockUsers = [
-  {
-    name: "John Doe",
-    email: "johndoe@mail.com",
-    roles: ["admin"],
-    avatar: "https://i.pravatar.cc/150?img=1",
-  },
-  {
-    name: "Jane Doe",
-    email: "janedoe@mail.com",
-    roles: ["editor"],
-    avatar: "https://i.pravatar.cc/150?img=1",
-  },
-];
-
 export const authProvider: AuthProvider = {
   login: async ({ email, username, password, remember }) => {
-    // Suppose we actually send a request to the back end here.
-    const user = mockUsers[0];
+    const response = await fetch(`${API_URL}/authentication`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
 
-    if (user) {
-      Cookies.set("auth", JSON.stringify(user), {
+    const { token } = await response.json();
+
+    console.log("logged", token);
+
+    if (token) {
+      Cookies.set("auth", JSON.stringify({ token }), {
         expires: 30, // 30 days
         path: "/",
       });
