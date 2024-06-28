@@ -1,7 +1,7 @@
 "use client";
 
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
-import { useMany } from "@refinedev/core";
+import { useList } from "@refinedev/core";
 import {
   DeleteButton,
   EditButton,
@@ -9,29 +9,17 @@ import {
   ShowButton,
   useDataGrid,
 } from "@refinedev/mui";
-import Cookies from "js-cookie";
 import React from "react";
 
-const { token } = JSON.parse(Cookies.get("auth") ?? "");
-
-export default function BlogPostList() {
+export default function OrdersList() {
   const { dataGridProps } = useDataGrid({
     syncWithLocation: true,
   });
 
-  const { data: ordersData, isLoading: ordersIsLoading } = useMany({
+  const { data: ordersData, isLoading: ordersIsLoading } = useList({
     resource: "orders",
-    ids:
-      dataGridProps?.rows
-        ?.map((item: any) => item?.orders?.id)
-        .filter(Boolean) ?? [],
     queryOptions: {
       enabled: !!dataGridProps?.rows,
-    },
-    meta: {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
     },
   });
 
